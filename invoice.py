@@ -3,17 +3,30 @@
 
 # In[ ]:
 
-
+print("---------- LOADING NECC INVOICE APP ----------")
 import pandas
 import numpy as np
 import matplotlib.pyplot as plt
 from typing import Dict
 from nltk.tokenize import word_tokenize 
 from nltk.corpus import stopwords 
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
 
-input_filename = input("Enter the input filename (Ex. Report_from_New_England_Coastal_Contractors_LLC.csv): ")
+print("--------------- Instructions -----------------")
+print()
+print("Step 1: Make sure the invoice file you are uploading is on your desktop AND in .csv format. Note you can save files in csv format in Excel.")
+print("Step 2: Follow the prompts to type in the input file name and the name you want to save your files under.")
+print("Note that this program generates two files. ('class_' + yourFileName and 'notes_' + yourFileName)")
+print("Step 3: Find your new files on your desktop.")
+print("----------------------------------------------")
 
-df = pandas.read_csv(input_filename)
+input_filename = input("Enter the input .csv filename. (Ex. Report_from_New_England_Coastal_Contractors_LLC.csv): ")
+
+print("----------------------------------------------")
+
+df = pandas.read_csv('Desktop/' + input_filename)
 print(df)
 worker_rates = {
     "Wayne Tirrell": 50,
@@ -151,8 +164,8 @@ print(final_notes_df)
 
 output_filename = input("Enter the output excel filename (Ex. russell_invoice.xlsx): ")
 
-final_class_df.to_excel('class_'+ output_filename)
-final_notes_df.to_excel('notes_'+ output_filename)
+final_class_df.to_excel('Desktop/class_'+ output_filename)
+final_notes_df.to_excel('Desktop/notes_'+ output_filename)
 
 
 
@@ -161,12 +174,13 @@ final_notes_df.to_excel('notes_'+ output_filename)
 
 def get_invoice(input_filename: str, output_filename: str):
     
-    df = pandas.read_csv(input_filename)
+    df = pandas.read_csv('Desktop/' + input_filename)
 
     worker_rates = {
-        "Wayne Tirrell": 50,
-        "Samuel H Wakeman": 45,
-        "Kyle R. Pinard": 44
+    "Wayne Tirrell": 50,
+    "Samuel H Wakeman": 40,
+    "Kyle R. Pinard": 40,
+    "Charles Tirrell": 40
     }
 
     classes = {}
@@ -180,7 +194,7 @@ def get_invoice(input_filename: str, output_filename: str):
 
     
     for i in range(len(names_df)):
-        if names_df[i] == "Wayne Tirrell" or names_df[i] == "Samuel H Wakeman" or names_df[i] == "Kyle R. Pinard":
+        if names_df[i] == "Wayne Tirrell" or names_df[i] == "Samuel H Wakeman" or names_df[i] == "Kyle R. Pinard" or names_df[i] == "Charles Tirrell":
 
             rate = worker_rates[names_df[i]]
             notesList = list(notes.keys())
@@ -242,7 +256,7 @@ def get_invoice(input_filename: str, output_filename: str):
         
         
 get_invoice(input_filename, output_filename)
-
+print("Process Complete! Check Desktop for files.")
 
 # In[ ]:
 

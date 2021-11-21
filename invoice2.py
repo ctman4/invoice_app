@@ -30,8 +30,8 @@ def browseFiles():
 #for getting the path of a file 
 def get_path(filename):
     path = filename
-    while path[-1] != "/":
-        path = path[0:-2]
+    while path[-1] != '/':
+        path = path[0:-1]
         print(path)
 
     return path
@@ -66,22 +66,33 @@ def check_sim(s1: str, s2: str):
     
     return cosine
 
-def rate_time_calc(time: str, rate: int):
+# def rate_time_calc(time: str, rate: int):
     
-    i = 0
-    time = str(time)
-    time = time[:-3]
-    for c in time:
+#     i = 0
+#     time = str(time)
+#     time = time[:-3]
+#     for c in time:
         
-        if c == ":":
-            break 
-        i += 1
+#         if c == ":":
+#             break 
+#         i += 1
             
-    hours = int(time[:i])
-    if time[i+1:] != "00":
-        hours += float(int(time[i+1:]) / 60)
+#     hours = int(time[:i])
+
+#     if time[i+1:] != "00":
+#         hours += float(int(time[i+1:]) / 60)
     
+#     return hours * rate
+
+def rate_time_calc(time:str, rate: int) :
+    times = time.split(":")
+    hours = float(times[0])
+    minutes = float(int(times[1])/60.0)
+
+    hours += minutes
+
     return hours * rate
+    
       
 
 #for generating invoice files from filename
@@ -89,7 +100,7 @@ def rate_time_calc(time: str, rate: int):
 def get_invoice(input_filename: str):
     
     print(input_filename)
-    df = pandas.read_excel(input_filename)
+    df = pandas.read_csv(input_filename)
 
     worker_rates = {
         "Wayne Tirrell": 50,
@@ -175,9 +186,9 @@ def get_invoice(input_filename: str):
 
 
 def generateFiles():
-    print("fiename" +  filename)
+    print("filename" +  filename)
     get_invoice(filename) 
-    label_file_explorer.configure("Files saved to: " + path)
+    label_file_explorer.configure(text ="Files saved to: " + path)
 
 
                                                                                                   
@@ -195,18 +206,19 @@ window.config(background = "green")
   
 # Create a File Explorer label
 label_file_explorer = Label(window,
-                            text = "Choose your file",
+                            text = "Choose your file, make sure it is in .csv format",
                             width = 100, height = 4,
                             fg = "blue")
   
       
 button_explore = Button(window,
-                        text = "Browse Files",
+                        text = "Browse for .csv File",
                         command = browseFiles)
   
-button_exit = Button(window,
-                     text = "Exit",
-                     command = exit)
+# button_exit = Button(window,
+#                      text = "Exit",
+#                      command = exit)
+                     
   
 button_generate_files = Button(window,
                      text = "Run",
@@ -220,7 +232,7 @@ label_file_explorer.grid(column = 1, row = 1)
 button_explore.grid(column = 1, row = 3)
   
 button_generate_files.grid(column = 1,row = 5)
-button_exit.grid(column = 1,row = 7)
+#button_exit.grid(column = 1,row = 7)
   
 # Let the window wait for any events
 window.mainloop()
